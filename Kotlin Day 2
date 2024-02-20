@@ -1,0 +1,1015 @@
+println(93.toHexString())
+//
+val macAddress = "001b638445e6".hexTpByteArray()
+
+println(macAddress.toHexString(HexFormat{bytes.byteSeparator = ":"}))
+
+val threeGroupFormat = HexFormat { upperCase = true; bytes.bytesPerGroup = 2; bytes.groupSeparator = "."}
+
+println(macAddress.toHexString(threeGroupFormat))
+//
+println("0x3a".hexToInt(HexFormat{number.prefix = "0x"}))
+//
+pluginManagement{
+  repositories{
+
+    mavenCentral()
+    gradlePluginPortal()
+  }
+}
+//
+koltin{
+  sourceSets.all{
+    lauguageSettings{
+      languageVersion = "2.0"
+    }
+  }
+}
+//
+kotlin{
+  androidTarget()
+  iosArm64()
+  iosSumulatorArm64()
+
+  sourceSets{
+    val commonMain by getting
+
+    val iosMain by creating{
+      dependsOn(commonMain)
+    }
+
+    val iosArm64Main by getting{
+      dependsOn(iosMain)
+    }
+
+    val iosSimulatorArm64Main by getting
+    {
+      dependsOn(iosMain)
+    }
+  }
+}
+//
+
+plugins{
+  kotlin("multiplatform")
+}
+
+group = "org.jetbrains.kotlin"
+version = "1.0"
+
+repositories{
+  mavenCentral()
+  mavenLocal()
+  google()
+}
+
+kotlin{
+  androidTarget()
+  iosX64()
+  iosSimulatorArm()
+}
+//
+kotlin{
+  androidTarget()
+  iosArm64()
+  iosSimulatorArm64()
+
+  sourceSets{
+    jvmMain{
+      
+    }
+  }
+}
+
+//
+kotlin{
+  jvm()
+  js{ browser()}
+  iosArm64()
+  iosSimulatorArm64()
+
+  applyDefaultHierarchyTemplate()
+
+  sourceSets{
+
+    val jsAndJvmMain by creating{
+      dependsOn(commonMain.get())
+    }
+    jsMain.get().dependsOn(jsAndJvmMain)
+    jvmMain.get().dependsOn(jsAndJvmMain)
+  }
+}
+//
+kotlin{
+  wasmWasi{
+    
+  }
+  wasmJs{
+    
+  }
+}
+//
+
+@WasmImport("wasi_snapshot_previes1", "clock_time_get")
+private external fun wasiRawClockTimeGet(clockId: Int, precision: Long, resultPtr: Int): Int
+//
+kotlin{
+  sourceSets.all{
+    languageSettings{
+      languageVersion = "2.0"
+    }
+  }
+}
+//
+enum class Color (val colorName: String, val rgb: String){
+  RED("RED", "#FF0000")
+  ORANGE("Orange", "#FF7F00")
+  YELLOW("Yellow", "FFFF00")
+}
+
+@OptIn(ExperimentalStdlibAPi::class)
+fun findByRgb(rgb: String): Color? = Color.entries.find { it.rgb == rgb}
+
+//
+tasks
+.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>()
+.configureEach{
+  compilerOptions
+  .languageVersion
+  .set(
+    org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
+  )
+}
+//
+tasks
+  .withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask.class)
+.configureEach{
+  compilerOptions.languageVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
+}
+//
+data object MyDataObject
+
+fun main(){
+  println(MyObject)
+  println(MyDataObject)
+}
+//
+sealed interface ReadResult
+data class Number(val number: Int) : ReadResult
+data class Text(val text: String) : ReadResult
+data object EndOfFile : ReadResult
+
+fun main(){
+  println(Number(7))
+  println(EndOfFile)
+}
+//
+data object MyDataObject{
+  val x: Int = 3
+}
+fun main(){
+  println(MyDataObject)
+}
+
+//
+data object MySingleton
+
+fun main(){
+  val evilTwin = createInstanceViaReflection()
+
+
+  println(MySingleton)
+  println(evilTwin)
+
+  println(MySingleton == evilTwin)
+
+  println(MySingleton == evilTwin)
+ 
+}
+
+fun creatreInstanceViaReflection(): MySingleton{
+
+  return (MySingleton.javaClass.declaredConstructors[0].apply {isAccessible = true} 
+         as Constructor<MySingleton>).newInstance()
+}
+//
+task
+.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*
+  >>()
+  .configureEash{
+    compilerOptions
+    .languageVersions
+    .set(
+     org.jetbrains.kotlin.gradle.dsl.kotlinVersion.KOTLIN_1_9 
+    )
+  }
+
+  //
+  task
+  .withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask.class)
+    .configureEash{
+      compilerOptions.languageVersions = org.jetbrains.kotlin.gradle.dsl.kotlinVersion.KOTLIN_1_9 
+    }
+    //
+
+
+@JvmInline
+value class Person(private val fullName: String){
+
+  init{
+    check(fullName.isNotBlack()){
+      "Full name shouldn't be empty"
+    }
+  }
+
+  constructor(name: String, lastName: String) : this("$name $lastName"){
+    check(lastName.isNotBlank()){
+      "Last name shouldn't be empty"
+    }
+  }
+}
+//
+task
+.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>()
+  .configureEash{
+    compilerOptions
+    .languageVersions
+    .set(
+     org.jetbrains.kotlin.gradle.dsl.kotlinVersion.KOTLIN_1_9 
+    )
+  }
+  //
+  plugins{
+    kotlin("multiplatform")version "1.8.20-RC2"
+  }
+
+  kotlin{
+    wasm{
+      binaries.executable()
+      browser{
+        
+      }
+    }
+    sourceSets{
+      val commonMain by getting
+      val commonTest by getting
+      dependencies{
+        implementation(Kotlin("test"))
+      }
+    }
+
+    val wasmMain by getting
+    val wasmTest by getting
+  }
+}
+//
+public class Person{
+  private String name;
+  private int age;
+
+  public Person(String name, int age){
+    this.name = name;
+    this.age = age;
+  }
+
+  public String getName(){
+    return name;
+  }
+  public int getAge(){
+    return age;
+  }
+}
+//
+val persons = listOf(Person("Jack", 11), Person("Sofie", 12), Person("Peter", 11))
+Persons
+.sortedBy(Person::age)
+
+.forEach{person -> println(person.name)}
+}
+//
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>()
+.configureEach{
+  compilerOptions
+  .languageVersion
+  .set(
+    org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
+  )
+}
+
+
+
+//
+tasks.
+withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask.class)
+.configureEach{
+  compilerOptions
+  .languageVersion
+  =
+    org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
+  
+}
+//
+kotlin{
+  ios()
+
+  cocoapods{
+    summary = "CocoPods test library"
+    homepage = "https://github.com/JetBrains/koltin"
+
+    ios.deploymentTarget = "13.5"
+
+    pod("PodName"){
+      extraOpts = list("-compiler-option", "-fmodules")
+    }
+  }
+}
+//
+cocopods{
+  summary = "CocoaPods test library"
+  homepage = "https://github.com/JetBrains/kotlin"
+  pod("Alamofire", linkOnly = true){
+    version = "5.7.0"
+  }
+}
+//
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
+kotlin{
+
+  targetHierarchy.default()
+
+  android()
+  iosArm64()
+  iosSimulatorArm64()
+}
+//
+class IOSPlatform: Platform{
+  override val name: String = UIDevice.currentDevice.systemName() + "
+  + UIDevice.currentDevice.systemVersion"
+}
+actual fun getPlatform(): platform(): Platform = IOSPlatform
+//
+kotlin{
+  js{
+    binaries.executable()
+    browser{
+      
+    }
+    generateTypeScriptDefinitions()
+  }
+}
+//
+interface XMLWriter : AutoCloseable{
+  fun document(encoding: String, version: String, content: XMLWriter.() -> Unit)
+  fun element(name: String, content: XMLWriter.() -> Unit)
+  fun attribute(name: String, value: String)
+  fun text(value: String)
+  
+
+}
+fun writeBooksTo(writer: XMLWriter){
+  writer.use{xml ->
+  xml.document(encodinf = "UTF-8", version = "1.0")}{
+    element("bookstore"){
+      element("book"){
+        attribute("category", "fiction")
+        element("title"){text("Harry Potter and the Prisioner of Azkaban")}
+        element("author") {text("J. L. Rowling")}
+        element("year") {text("1999")}
+        element("price") {text("29.99")}
+      }
+      element("book"){
+        attribute("category", "programming")
+        element("title"){text("Kotlin in Action")}
+        element("author") {text("Dmitry Jemerov")}
+        element("author") {text("Svetlana Isakova")}
+      element("year") {text("2017")}
+      element("price") { text("25.19")}
+      }
+    }
+  }
+}
+}
+//
+val foBytes = "fo".map{it.code.toByte()}.toByArray()
+Base64.Default.encode(foBytes)
+
+val foobarBytes = "foobar".map{it.code.toByte()}.toBytpArray()
+Base64.UrlSafe.encode(foobarBytes)
+
+Base64.Default.decode("Zm8=")
+
+Base64.UrlSafe.decode("Zm9vYmFy")
+//
+tasks
+.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>()
+.configureEach{
+  compilerOptions
+  .languageVersion
+  .set(
+    org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
+  )
+}
+//
+tasks
+.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask.)
+.configureEach{
+  compilerOptions
+  .languageVersion
+ = 
+    org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
+  
+}
+//
+
+
+@Serializable
+class Foo(val a: int){
+  @Serializer(Foo::class)
+  companion object{
+    
+  }
+}
+//
+@Serializable(Foo.Companion::class)
+class Foo(val a: Int){
+  companion object: KSerializer<Foo>{
+    
+  }
+}
+//
+pluginManagement{
+  repositories{
+    mavenCentral()
+    gradlePluginPortal()
+  }
+}
+
+//
+
+@ObjCName(swiftName = "MySwiftArray")
+class MyKotlinArray{
+
+  @ObjCName("index")
+  fun indexOf(@ObjCName("of") element: String):Int = TODO()
+}
+
+let array = MySwiftArray()
+let index = array.index(of:"element")
+//
+kotlin{
+  cocoapod{
+    framework{
+      baseName = "MyFramework"
+      isStatic = false
+    }
+  }
+}
+//
+kotlin{
+
+  sourceSets{
+    val commonTest by getting
+    val androidInstrumentedTest by getting{
+      dependsOn(commonTest)
+    }
+  }
+}
+//
+kotlin{
+  sourceSet.invokeWhenCreated("androidFreeDebug"){
+    
+  }
+}
+//
+rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin::class.java)
+rootProject.the<YarnRootExtension>().yarnLockMismatchReport = 
+  YarnLockMismatchReport.WARNING
+rootProject.the<YarnRootExtension>().reportNewYarnLock = false
+rootProject.the<YarnRootExtension>().yarnLockAutoReplace = false
+}
+//
+browser{
+  commonWebpackConfig{
+    cssSupport.enable = true
+  }
+}
+//
+browser{
+  commonWebpackConfig{
+    cssSupport{
+      enable.set(true)
+    }
+  }
+}
+
+//
+tasks.named("compileKotlin", org.jetbrains.kotlin.gradle. KotlinJvmCompile::class.java){
+  compilerOptions{
+    useK2.set(true)
+  }
+}
+//
+android{
+  kotlinOptions{
+    jvmTarget = "11"
+  }
+}
+
+//
+implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
+//
+dependencies{
+  constraints{
+    implementation("org.jetbrains.kotlin:kotlin-sam-with-receiver:1.8.0")
+  }
+}
+//
+fun main(){
+  val num = 27
+  val negNum = -num
+  
+
+println("The code root of${num.toDouble()} is: "+
+    cbrt(num.toDouble()))
+println("The cube root of ${negNum.toDouble()} is: "+
+    cbrt(negNum.toDouble()))
+
+
+}
+//
+fun wait(timeout: Long, unit: TimeUnit){
+  val duration: Duration = timeout.toDuration(unit.toDurationUnit())
+}
+//
+fun main(){
+  val timeSource = TimeSource.Monotonic
+  val mark1 = timeSource.markNow()
+  Thread.sleep(500)
+  val mark2 = timeSource.markNow()
+
+  repeat(4){n ->
+  val elapsed1 = mark1.elapsedNow()
+  val elapsed2 = mark2.elapsedNow()
+
+  println("Measurement 1.${n + 1}: elapsed1=$elapsed1, " + 
+      "elapsed2=$elapsed2, diff=${elapsed1 - elapsed2}")
+  }
+  println()
+
+repeat(4){
+  n->
+  val mark3 = timeSource.markNow()
+  val elapsed1 = mark3 - mark1
+  val elapsed2 = mark3 - mark2
+
+  println("Measurement 2.${n + 1}: elapsed1=$elapsed1, " + 
+      "elapsed2 = $elapsed2, diff=${elapsed1 - elapsed2}")
+}
+
+println(mark2 > mark1)
+}
+//
+sourceRoot.copyToRecursively(destinationRoot, followLinks =false,
+                            onError = {source, target, exception ->
+                            logger.logError(exception, "Failed to copy $source to $target")
+                            OnErrorResult.TERMINATE
+                            })
+//
+fun setUpEnvironment(projectDirectory: Path, fixtureName: String){
+  fixturesRoot.resolve(COMMON_FIXTURE_NAME)
+  .copyToRecursively(projectDirectory, followLinks = false)
+  fixtureRoot.resolve(fixtureName)
+  .copyToRecursively(projectDirectory, followLinks = false,
+                    overwrite = true)
+}
+//
+sourceRoot.copyToRecursively(destinationRoot, followLinks = false) {source, target ->
+  if(source.name.startsWith(".")){
+    CopyActionResult.SKI{_SUBTREE
+    }else{
+      source.copyToIgnoriingExistingDirectory(target, followLinks = false)
+      CopyActionResult.CONTINUE
+    }
+  }
+//
+task.withType<KotlinCompile>{
+  kotlinOptions.userK2 = true
+}
+//
+when(value){
+  in 0.0..<0.25 ->
+  in 0.25..<0.5 ->
+  in 0.5 ..<0.75 ->
+  in 0.75..1.0 ->
+  
+}
+//
+interface OpenEndRange<T : Comparable<T>>{
+
+  val start: T
+
+  val endExclusive: T
+  operator fun contains(value: T): Boolean = value >= start && value < endExclusive
+  fun isEmpty(): Boolean = start >= endExclusive
+
+}
+//
+class IntRange : IntProgression(..) , ClosedRange<Int>, OpenEndRange<Int>{
+  override val start: int
+  override val endInclusive: Int
+  override val endExclusive: Int
+}
+//
+
+data object myDataObject
+
+  fun main(){
+    println(MyObject)
+    println(MyDataObject)
+  }
+  //
+  sealed class ReadResult{
+    data class Number(val value: Int) : ReadResult()
+    data class Text(val value: String) : ReadResult()
+    data object EndOfFile : ReadResult()
+  }
+  fun main(){
+    println(ReadResult.Number(1))
+    println(ReadResult.Text("Foo"))
+    println(ReadResult.EndOfFile)
+  
+  }
+  //
+  tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach{
+    kotlinOptions.languageVersion = "1.9"
+  }
+  //
+  class Data{
+    fun doSmth() {}
+  }
+
+  fun <T T.doSmth() {}
+  fun test(){
+    buildList{
+      this.add(Data())
+      this.get(0).doSmth()
+    }
+  }
+  //
+  fun <T: Any> buildList(
+    first: MutableList<T>.() -> Unit,
+    second: MutableList<T>.() -> Unit
+  ): List<T>{
+    val list = mutableListOf<T>()
+    list.first()
+    list.second()
+    return list
+  }
+  fun main(){
+    buildList(
+      first = {
+        add("")
+      },
+      second = {
+        val i: int = get(0)
+        println(i)
+      }
+    )
+  }
+  //
+  fun main(){
+    buildList<Int>(
+
+      
+     first = {
+       add(0)
+     },
+   second = {
+     val i: Int = get(0)
+   println(i)
+   }
+   )
+  }
+  //
+  @JvmInline
+  value class UserId<T>(val value: T)
+  fun compute(s: UserId<String>) {}
+  //
+  
+object NamedObject{
+  operator fun getValue(thisRef; Any?, property: KProperty<*>): String = ...
+  
+}
+val s: String by NamedObject
+  //
+  val impl: ReadOnlyProperty<Any?, String> = ...
+  class A{
+    val s: String by impl
+  }
+  //
+  class A{
+    operator fun getValue(thisRef: Any?, property: KProperty<*>)...
+
+    val s by this
+  }
+  //
+  sourceSets{
+    main{
+      kotlin{
+        java.setSrcDirs(listOf("src/java"))
+        kotlin.setSrcDirs(listOf("src/kotlin"))
+      
+      }
+    }
+  }
+  //
+  kotlin{
+    sourceSets{
+      main{
+        
+      }
+    }
+  }
+  //
+  kotlin{
+    jvmToolchain(17)
+  }
+  //
+  kotlin{
+    jvmToochain{
+      languageVersion.set(JavaLangaugeVersion.of(17))
+    }
+  }
+  //
+  val cleanVisitor = fileVisitor{
+    onPreVisitDirectory{directory,attributes ->
+    
+    FileVisitResult.CONTINUE
+    }
+
+    onVisitFile{file, attributes ->}
+  
+  FileVisitResult.CONTINUE
+  }
+}
+projectDirectory.visitFileTree(cleanVisitor)
+//
+projectDirectory.visitFileTree{
+
+  onPreVisitDirectory{directory, attributes ->
+  FileVisitResult.CONTINUE
+  }
+
+  onVisitFile{file, attributes ->
+  
+  FileVisitResult.CONTINUE}
+}
+}
+//
+@OptIn(kotlin.io.path.ExperimentalPathApi::class)
+fun traverseFileTree(){
+  val cleanVisitor = fileVisitor{
+      onPreVisitDirectory{
+        directory, ->
+        if(directory.name == "build"){
+          directory.toFile().deleteRecursively()
+          FileVisitResult.SKIP_SUBTREE
+        }else{
+          FileVisitResult.CONTINUE
+        }
+      }
+      onVisitFile(file ->
+          if(file.extension == "class"){
+            file.deleteExisting()
+          }
+                 FIleVisitResult.CONTINUE
+  }
+}
+val rootDirectory = createTempDirectory("Project")
+
+rootDirectory.resolve("src").let{srcDirectory ->
+srcDirectory.createDirectory()
+srcDirectory.resolve("A.kt").createFile()
+srcDirectory.resolve("A.class").createFile()
+
+
+}
+rootDirectory.resolve("build").let{buildDirectory -> 
+buildDirectory.createDirectory()
+buildDirectory.resolve("Project.jar").createFile()
+}
+//
+val directoryStructure = rootDirectory.walk(PathWalkOption.INCLUDE_DIRECTORIES)
+.map {it.relativeTo (rootDirectory).toString()}
+.toList().sorted()
+assertPrints(directoryStructure, " [, build, build,jar, src, src/A.class, src/A.kt]"
+            
+           rootDirectory.visitFileTree(cleanVisitor)
+
+           val directoryStructureAfterClean = rootDirectory.walk(PathWalkOption.INCLUDE_DIRECTORIES)
+           .map{it.relativeTo(rootDirectory). toString()}
+           .toList().sorted()
+           assertPrints(directoryStructureAfterClean, " [ src, src/A.kt")
+             }
+
+             //
+
+interface Bar{
+  fun foo() = " foo"
+  
+}
+@JvmInline
+value class BarWrapper(val bar: Bar) : Bar by ByteArray
+             fun main(){
+               val bw = BarWrapper(object: Bar { })
+               println(Bw.foo())
+             }
+             //
+abstract class SomeClass<T>{
+  abstract fun execute(): T
+}             
+class SomeImplementation : SomeClass<String> (){
+  override fun execute():String = "Test"
+}
+
+class OtherImplementation: SomeClass<Int>(){
+  override fun execute(): Int = 42
+}
+object Runner{
+  inline fun <reified S: SomeClass <T> , T> run(): T
+  {
+    return S::class.java.getDeclaredConstructor().newInstance().execute()
+  }}
+fun main(){
+  val s = Runner.run<SomeImplementation, ->()
+  assert(s == "Test")
+
+  val s = Runner.run<SomeImplementation, ->()
+  assert(n == 42)
+  
+}
+//
+fun <T> elvusLike(x: T, y: T & Any): T & Any = x ?: y
+
+             fun main(){
+               elvisLike<String>("", "").length
+               elvisLike<String>("", null).length
+
+               elvisLike<String?>(null, "").length
+               elvisLike<String?>(null, null).length
+             }
+             //
+kotlin{
+  js(IR){
+    compilations.all{
+      compileKotlinTask.kotlinOptions.freeCompilerArgs += listOf("-Xir-minimized-member-name")
+    }
+  }
+}             
+//
+val myPackage = js("import('my-package')")
+
+//
+kotlin{
+  js{
+    nodejs{
+      testTask{
+        environment("key", "value")
+      }
+    }
+    }
+}
+//
+fun main(){
+  val number = listOf(Int)()
+  println(numbers.maxOrNull())
+  println(numbers.max())
+}
+//
+fun main(){
+  val releaseText = "Kotlin 1.7.0 is its way!"
+
+  val versionRegex = "\\d[.]\\d[.]\\d+".toRegex()
+
+  println(versionRegex.matchesAt(releaseText, 0))
+  println(versionRegex.matchesAt(releaseText, 7))
+
+}
+//
+             fun main(){
+               val releaseText = "Kotlin 1.7.0 is its way!"
+
+               val versionRegex = "\\d[.]\\d[.]\\d+".toRegex()
+
+               println(versionRegex.matchesAt(releaseText, 0))
+               println(versionRegex.matchesAt(releaseText, 7)?.value)
+
+             }
+             //
+@Repeatable
+annotation class Tag (val name: String)
+@Tag("First Tag")
+@Tag("Second Tag")
+fun taggedFunction(){
+  println("I'm a tagged function!")
+}
+
+fun main(){
+  val x = ::taggedFunction
+  val foo = x as KAnnotatedElement
+  println(foo.findAnnotations<Tag>())
+}
+//
+class Tree (val left: Tree?, val right: Tree?)
+
+val calculateDepth = DeepRecursiveFunction<Tree?, Int>{t ->
+if(t == null)} 0 else maxOf(
+  callRecursive(t.left),
+  callRecursive(t.right)
+  
+)+ 1
+}
+fun main(){
+  val deepTree = generateSequence(Tree(null, null))
+  {
+    prev-> Tree(prev, null)
+  }.take(100_000).last()
+  println(calculateDepth(deepTree))
+
+}
+//
+
+@OptIn(ExperimentalTime::class)
+fun main(){
+  val mark = TimeSource.Monotonic.markNow()
+  val elapsedDuration = mark.elapsedNow()
+  
+}
+//
+val presentOptional = Optional.of("I'm here!")
+
+println(presentOptional.getOrNull())
+
+val absentOptional = Optional.empty<String>()
+
+println(absentOptional.getOrNull())
+
+println(absentOptional.getOrDefault("Nobody here!"))
+
+println(absentOptional.getOrElse){
+  println("Optional was absent!")
+  "Default value!"
+}
+//
+val presnetOptional = Optional.if("I'm here!")
+
+val absentOptional = Optional.empty<String>()
+
+println(presentOptional.toList() + "," + absentOptional.toList() )
+
+println(presentOptional.toSet() = ", " + absentOptional.toSet())
+
+val myCollection = mutableListOf<String>()
+absentOptional.toCollection(myCollection)
+println(myCollecetion)
+
+presentOptional.toCollection(myCollection)
+println(myCollection)
+
+
+val list = listOf(presentOptional, absentOptioanl). flatMap{it.asSequence()}
+print(list)
+//
+fun main()
+             {
+               val regex = "\\b(?<city>[A-Za-z\\s]+), \\s(?<state>[A-Z]{2}): \\s(?<areaCode>[0-9]{3})\\b".toRegex(
+                 val input = "Coordinates :Austin, Tx: 123"
+                 val match = regex.find(input)!!
+                   println(match.groups["city"]?.value)
+               println(mathc.groups[2]?.value)
+               )
+             }
+
+ //
+ fun main()
+  {
+    val regex = ""(?<title>\\w+), yes \\k<title>".toRegex()
+
+    
+      val match = regex.find("Do you copy? Sir, yes Sir!")!!
+    
+ println(match.value)
+    println(mathc.s["title"]?.value)
+    )
+  }
+//
+fun dataReplace(){
+  val dataRegex = Regex("(?<dd>\\d{2})-(?<mm>\\d{2})-(?<yyyy>\\d{4})")
+  val input = "Date of birth: 27-04-2022"
+
+
+   println(dataRegex.replace(input, "\${yyyy}-\${mm}-\${dd}")) 
+   println(dataRegex.replace(input, "\$3-\$2-\$1"))
+
+  
+}
